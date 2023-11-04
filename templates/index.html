@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Online Desktop</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="top">
+            <div id="date">Date</div>
+            <h1>My Personal Desktop</h1>
+            <div id="clock"></div>
+        </div>
+        <div class="main">
+           <div class="widget">
+                <h3>Widget 1</h3>
+                <div class="notepad">
+                    <textarea rows="50" cols="50" id="note-area" name="message" placeholder="Enter text here..."></textarea>
+                    <button id="save-btn">Save</button>
+                </div>
+           </div>
+           <div class="widget">
+                <h3>Widget 2</h3>
+           </div>
+           <div class="widget">
+                <h3>Widget 3</h3>
+        </div>
+        </div>
+    </div>
+
+    <script>
+    
+    function showTime(){
+        var now = new Date()
+        var year = now.getFullYear()
+        var month = now.getMonth() + 1 // janurary is 0, git month is always one month off
+        var day = now.getDate()
+    
+        if (month < 10) month = "0" + month
+        if (day < 10) day = "0" + day
+        var fullDate = `${month}/${day}/${year}`
+        $("#date").text(fullDate)
+    
+        var hour = now.getHours()
+        var minute = now.getMinutes()
+        var seconds = now.getSeconds()
+        var isPm = hour >= 12
+        var lastPart = isPm ? "PM" : "AM"
+        if (isPm) hour -= 12
+    
+        if (hour < 10) hour = "0" + hour
+        if (minute < 10) minute = "0" + minute
+        if (seconds < 10) seconds = "0" + seconds
+    
+        var fullTime = `${hour}:${minute}:${seconds} ${lastPart}`
+        console.log(fullTime)
+        $("#clock").text(fullTime)
+    }
+    
+    showTime()
+    setInterval(showTime, 1000)
+    
+    try {
+        var notes = localStorage.getItem("notes")
+    }   catch (err){
+        var notes = ""
+    }   
+    $("#note-area").val(notes)
+    
+    $("#save-btn").click(function(){
+        var notes = $("#note-area").val()
+        localStorage.setItem("notes", notes) 
+    })</script>
+</body>
+</html>
+
